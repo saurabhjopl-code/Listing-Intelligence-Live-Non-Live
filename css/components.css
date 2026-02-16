@@ -1,1 +1,295 @@
-/* Components CSS */
+/* ===============================
+   LISTING INTELLIGENCE – SAAS UI
+   =============================== */
+
+body {
+  background: #f6f8fb;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #1f2937;
+}
+
+/* ===== Wrapper ===== */
+
+.listing-status-wrapper {
+  padding: 24px 32px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ================= HEADER ================= */
+
+.ls-header {
+  margin-bottom: 24px;
+}
+
+.ls-header-top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.ls-logo img {
+  height: 48px;
+  width: auto;
+}
+
+.ls-title h1 {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.ls-title span {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* ================= PROGRESS ================= */
+
+.ls-progress-section {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.ls-progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.ls-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  transition: width 0.6s ease;
+}
+
+.ls-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+/* ================= FILTER BAR ================= */
+
+.ls-filters {
+  position: sticky;
+  top: 0;
+  background: #f6f8fb;
+  padding: 16px 0;
+  display: flex;
+  gap: 16px;
+  z-index: 10;
+}
+
+.ls-filters input,
+.ls-filters select {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background: white;
+  font-size: 14px;
+  min-width: 200px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.ls-filters input:focus,
+.ls-filters select:focus {
+  border-color: #2563eb;
+}
+
+/* ================= SUMMARY CARDS ================= */
+
+.ls-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.ls-card {
+  background: white;
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.ls-card:hover {
+  transform: translateY(-4px);
+}
+
+.ls-card-value {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.ls-card-label {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* ================= TABLE ================= */
+
+.ls-table {
+  background: white;
+  border-radius: 20px;
+  padding: 12px 0;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.05);
+}
+
+/* Style Row */
+
+.ls-style-row {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ls-style-main {
+  display: grid;
+  grid-template-columns: 40px 150px 100px 100px 200px 120px 100px;
+  align-items: center;
+  padding: 16px 20px;
+  font-size: 14px;
+}
+
+.ls-style-main:hover {
+  background: #f9fafb;
+}
+
+.ls-expand {
+  cursor: pointer;
+}
+
+.ls-style-id {
+  font-weight: 600;
+}
+
+/* SKU Container */
+
+.ls-sku-container {
+  padding-left: 40px;
+  background: #fbfcff;
+}
+
+.ls-sku-row {
+  display: grid;
+  grid-template-columns: 40px 180px 100px 100px;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.ls-sku-row:hover {
+  background: #eef2ff;
+}
+
+.ls-detail-row {
+  padding: 12px 40px 18px 60px;
+  font-size: 13px;
+  color: #374151;
+  background: #f3f4f6;
+  border-radius: 12px;
+  margin: 8px 20px;
+}
+
+/* ================= STATUS BADGES ================= */
+
+.ls-status {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  width: fit-content;
+}
+
+.ls-status.full {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.ls-status.partial {
+  background: #fef9c3;
+  color: #92400e;
+}
+
+.ls-status.pending {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ================= LIVE BUTTON ================= */
+
+.ls-live-btn {
+  color: #2563eb;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.ls-live-btn:hover {
+  text-decoration: underline;
+}
+
+/* ================= MODAL ================= */
+
+.ls-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.ls-modal-content {
+  background: white;
+  width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.ls-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.ls-modal-header button {
+  border: none;
+  background: #f3f4f6;
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.ls-modal-header button:hover {
+  background: #e5e7eb;
+}
+
+/* ================= UTIL ================= */
+
+.hidden {
+  display: none;
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
