@@ -1,1 +1,30 @@
-<!-- Root HTML (UI Skeleton Locked) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Listing Intelligence – Live / Non-Live</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./css/reset.css" />
+  <link rel="stylesheet" href="./css/variables.css" />
+  <link rel="stylesheet" href="./css/layout.css" />
+  <link rel="stylesheet" href="./css/components.css" />
+</head>
+<body>
+
+  <!-- MAIN APP ROOT -->
+  <div id="app"></div>
+
+  <!-- MODULE SCRIPT -->
+  <script type="module">
+    import { renderListingStatusTab } from "./js/modules/listing-status/ui/listingStatus.tab.js";
+
+    const appContainer = document.getElementById("app");
+
+    // Render Listing Intelligence UI (Dummy Mode)
+    renderListingStatusTab(appContainer);
+  </script>
+
+</body>
+</html>
