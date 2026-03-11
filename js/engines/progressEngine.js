@@ -6,9 +6,9 @@ const bar = document.getElementById("progressBar");
 
 progress = 5;
 
-bar.style.width = progress + "%";
-
 bar.style.display = "block";
+
+bar.style.width = progress + "%";
 
 }
 
