@@ -1,33 +1,40 @@
-export function computeStyleCoverage(skuStatus){
+export function computeStyleCoverage(styleSkuIndex, skuStatus){
 
-const map = {};
+const skuMap = {};
 
-skuStatus.forEach(row=>{
+skuStatus.forEach(row => {
 
-if(!map[row.styleid]){
+skuMap[row.uniware_sku] = row.status;
 
-map[row.styleid]={
+});
 
-styleid:row.styleid,
 
-total:0,
+const result = [];
 
-live:0
+Object.keys(styleSkuIndex).forEach(style => {
 
-};
+const skus = styleSkuIndex[style];
 
-}
+let live = 0;
 
-map[row.styleid].total++;
+skus.forEach(sku => {
 
-if(row.status==="LIVE"){
-
-map[row.styleid].live++;
-
+if(skuMap[sku] === "LIVE"){
+live++;
 }
 
 });
 
-return Object.values(map);
+result.push({
+
+styleid:style,
+live,
+total:skus.length
+
+});
+
+});
+
+return result;
 
 }
