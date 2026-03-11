@@ -2,7 +2,8 @@ let expandedMP = null
 let expandedSKU = null
 let visibleRows = 50
 
-/* ---------------- MATRIX TABLE ---------------- */
+
+/* ================= MATRIX TABLE ================= */
 
 export function renderMatrix(container,data,mpGroups){
 
@@ -33,13 +34,25 @@ html+=`<td>${r.category}</td>`
 html+=`<td>${r.size}</td>`
 
 Object.keys(mpGroups).forEach(mp=>{
-const cls=r[mp]==="LIVE"?"live":"nonlive"
-html+=`<td class="${cls}">${r[mp]}</td>`
+
+const status = r[mp]
+
+let cell=""
+
+if(status==="LIVE"){
+cell=`<span class="dot liveDot"></span>`
+}else{
+cell=`<span class="dot nonLiveDot"></span>`
+}
+
+html+=`<td>${cell}</td>`
+
 })
 
 html+="</tr>"
 
-/* MP ACCOUNT EXPANSION */
+
+/* ACCOUNT EXPANSION */
 
 if(expandedMP){
 
@@ -50,12 +63,12 @@ accounts.forEach(acc=>{
 html+="<tr class='accountRow'>"
 
 html+="<td></td>"
-html+="<td colspan='3'>"+acc.account+"</td>"
+html+=`<td colspan="3">${acc.account}</td>`
 
 Object.keys(mpGroups).forEach(mp=>{
 
 if(mp===expandedMP){
-html+=`<td>•</td>`
+html+=`<td class="subIndicator">•</td>`
 }else{
 html+="<td></td>"
 }
@@ -72,11 +85,12 @@ html+="</tr>"
 
 html+="</tbody></table>"
 
+
 if(data.length>visibleRows){
 
 html+=`
-<div style="padding:20px;text-align:center">
-<button id="loadMore">Load More</button>
+<div class="loadMoreArea">
+<button id="loadMoreBtn">Load More</button>
 </div>
 `
 
@@ -87,6 +101,7 @@ container.innerHTML=html
 attachMatrixEvents(container,data,mpGroups)
 
 }
+
 
 function attachMatrixEvents(container,data,mpGroups){
 
@@ -104,7 +119,7 @@ renderMatrix(container,data,mpGroups)
 
 })
 
-const btn=document.getElementById("loadMore")
+const btn=document.getElementById("loadMoreBtn")
 
 if(btn){
 
@@ -118,7 +133,7 @@ renderMatrix(container,data,mpGroups)
 }
 
 
-/* ---------------- COUNT TABLE ---------------- */
+/* ================= COUNT TABLE ================= */
 
 export function renderCount(container,data,distribution){
 
@@ -151,7 +166,8 @@ html+=`<td>${r.count}</td>`
 
 html+="</tr>"
 
-/* SKU DISTRIBUTION */
+
+/* DISTRIBUTION EXPANSION */
 
 if(expanded){
 
@@ -175,11 +191,12 @@ html+="</tr>"
 
 html+="</tbody></table>"
 
+
 if(data.length>visibleRows){
 
 html+=`
-<div style="padding:20px;text-align:center">
-<button id="loadMoreCount">Load More</button>
+<div class="loadMoreArea">
+<button id="loadMoreCountBtn">Load More</button>
 </div>
 `
 
@@ -190,6 +207,7 @@ container.innerHTML=html
 attachCountEvents(container,data,distribution)
 
 }
+
 
 function attachCountEvents(container,data,distribution){
 
@@ -207,7 +225,7 @@ renderCount(container,data,distribution)
 
 })
 
-const btn=document.getElementById("loadMoreCount")
+const btn=document.getElementById("loadMoreCountBtn")
 
 if(btn){
 
