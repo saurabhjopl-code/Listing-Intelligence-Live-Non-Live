@@ -1,15 +1,10 @@
 import { loadSheets } from "./core/sheetLoader.js";
 import { applySearch, applySearchDebounced } from "./core/searchEngine.js";
-import { applyFilters } from "./core/filterEngine.js";
 
 import { buildCatalog } from "./engines/masterCatalogEngine.js";
 import { buildListingMap } from "./engines/listingPresenceEngine.js";
 import { computeSkuStatus } from "./engines/skuStatusEngine.js";
 import { computeStyleCoverage } from "./engines/styleCoverageEngine.js";
-import { buildIndexes } from "./engines/indexEngine.js";
-
-import { getMissingSizes } from "./engines/missingSizeEngine.js";
-import { getCriticalSkus } from "./engines/criticalSkuEngine.js";
 
 import { renderSummary } from "./renderers/summaryRenderer.js";
 import { renderTable } from "./renderers/tableRenderer.js";
@@ -18,40 +13,38 @@ import { initTabs } from "./renderers/tabRenderer.js";
 
 import { startProgress, updateProgress, finishProgress } from "./engines/progressEngine.js";
 
-
 let DATA = {};
 let CURRENT_TAB = "summary";
-
 
 async function init(){
 
 startProgress();
 
-updateProgress(20);
+updateProgress(15);
 
 const sheets = await loadSheets();
 
-updateProgress(40);
+updateProgress(35);
 
 const catalog = buildCatalog(sheets);
+
+updateProgress(50);
+
 const listings = buildListingMap(sheets);
 
-updateProgress(60);
+updateProgress(65);
 
 const skuStatus = computeSkuStatus(catalog,listings);
-
-const indexes = buildIndexes(catalog,listings,sheets.size_count);
 
 updateProgress(80);
 
 DATA = {
 catalog,
 listings,
-skuStatus,
-indexes
+skuStatus
 };
 
-renderFilters(DATA, applyAll);
+renderFilters(DATA,applyAll);
 
 initTabs(tab=>{
 CURRENT_TAB = tab;
@@ -80,7 +73,7 @@ applySearchDebounced(applyAll);
 };
 
 clear.onclick = ()=>{
-box.value = "";
+box.value="";
 applyAll();
 };
 
@@ -95,91 +88,75 @@ const acc = document.getElementById("accFilter")?.value;
 const cat = document.getElementById("catFilter")?.value;
 const term = document.getElementById("searchBox")?.value;
 
-let data = [...DATA.skuStatus];
+let data = DATA.skuStatus.map(sku=>{
 
-data = applyFilters(data,{
-mp,
-acc,
-category:cat
+const catalog = DATA.catalog.find(c=>c.uniware_sku===sku.uniware_sku) || {};
+const listing = DATA.listings.find(l=>l.uniware_sku===sku.uniware_sku) || {};
+
+return {
+...sku,
+category:catalog.category,
+styleid:catalog.styleid,
+parent_remark:catalog.parent_remark,
+mp:listing.mp,
+account:listing.account
+};
+
 });
+
+
+
+if(mp) data = data.filter(r=>r.mp===mp);
+
+if(acc) data = data.filter(r=>r.account===acc);
+
+if(cat) data = data.filter(r=>r.category===cat);
 
 data = applySearch(data,term);
 
 
-let tableData = [];
 
+if(CURRENT_TAB==="summary"){
 
-if(CURRENT_TAB === "summary"){
+const summary = computeStyleCoverage(data);
 
-tableData = computeStyleCoverage(
-DATA.indexes.styleSkuIndex,
-data,
-DATA.catalog
-);
-
-renderSummary(tableData);
+renderSummary(summary);
 
 renderTable(
 "app",
 ["styleid","live","total","category","parent_remark"],
-tableData
+summary
 );
 
 }
 
 
-if(CURRENT_TAB === "live"){
 
-tableData = data.filter(r=>r.status==="LIVE");
+if(CURRENT_TAB==="live"){
+
+const live = data.filter(r=>r.status==="LIVE");
 
 renderTable(
 "app",
-["uniware_sku","styleid","stock","status"],
-tableData
+["uniware_sku","styleid","stock","status","mp","account"],
+live
 );
 
 }
 
 
-if(CURRENT_TAB === "partial"){
 
-tableData = getMissingSizes(DATA.catalog, DATA.listings);
+if(CURRENT_TAB==="nonlive"){
+
+const nonlive = data.filter(r=>r.status==="NON_LIVE");
 
 renderTable(
 "app",
-["uniware_sku","styleid","stock"],
-tableData
-);
-
-}
-
-
-if(CURRENT_TAB === "nonlive"){
-
-tableData = data.filter(r=>r.status==="NON_LIVE");
-
-renderTable(
-"app",
-["uniware_sku","styleid","stock","status"],
-tableData
-);
-
-}
-
-
-if(CURRENT_TAB === "critical"){
-
-tableData = getCriticalSkus(data);
-
-renderTable(
-"app",
-["uniware_sku","styleid","stock","status"],
-tableData
+["uniware_sku","styleid","stock","status","mp","account"],
+nonlive
 );
 
 }
 
 }
-
-
 init();
