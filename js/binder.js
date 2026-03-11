@@ -111,7 +111,7 @@ if(CURRENT_TAB==="partial") data=DATA.missing;
 if(CURRENT_TAB==="nonlive") data=DATA.skuStatus.filter(r=>r.status==="NON_LIVE");
 if(CURRENT_TAB==="critical") data=DATA.critical;
 
-data=applyFilters(data,{mp,acc,category:cat});
+// data=applyFilters(data,{mp,acc,category:cat});
 
 if(term){
 data=data.filter(r=>
