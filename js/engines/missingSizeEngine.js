@@ -1,21 +1,23 @@
-export function getPartialStyles(styleMpIndex){
+export function getMissingSizes(catalog, listings){
 
-const result = [];
+const listingSet = new Set();
 
-Object.values(styleMpIndex).forEach(mpData=>{
+listings.forEach(row=>{
+listingSet.add(row.uniware_sku);
+});
 
-Object.values(mpData).forEach(row=>{
+const missing = [];
 
-if(row.live_sizes > 0 && row.live_sizes < row.total_sizes){
+catalog.forEach(row=>{
 
-result.push(row);
+if(!listingSet.has(row.uniware_sku)){
+
+missing.push(row);
 
 }
 
 });
 
-});
-
-return result;
+return missing;
 
 }
