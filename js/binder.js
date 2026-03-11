@@ -22,6 +22,8 @@ import { renderTable } from "./renderers/tableRenderer.js";
 
 import { initTabs } from "./renderers/tabRenderer.js";
 
+import { startProgress, updateProgress, finishProgress } from "./engines/progressEngine.js";
+
 
 let DATA = {};
 
@@ -176,3 +178,20 @@ nonlive
 
 
 init();
+
+startProgress()
+
+updateProgress(20)
+loadSheets()
+
+updateProgress(40)
+buildCatalog()
+
+updateProgress(60)
+buildIndexes()
+
+updateProgress(80)
+computeStyleCoverage()
+
+updateProgress(100)
+finishProgress()
