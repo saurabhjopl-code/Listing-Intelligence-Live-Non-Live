@@ -1,57 +1,69 @@
-.card{
+.table{
 
 background:white;
 
-padding:16px;
+border-radius:8px;
 
-border:1px solid #e5e7eb;
+overflow:hidden;
+
+box-shadow:0 1px 3px rgba(0,0,0,0.08);
+
+}
+
+.tabs button{
+
+background:#f8fafc;
+
+border:none;
+
+padding:10px 16px;
 
 border-radius:6px;
 
-font-size:14px;
+font-weight:500;
 
 }
 
-.table{
+.tabs button:hover{
 
-width:100%;
-
-border-collapse:collapse;
-
-margin-top:20px;
+background:#eef2ff;
 
 }
 
-.table th{
+#loadMoreBtn{
 
-text-align:left;
+margin-top:15px;
 
-padding:10px;
+padding:10px 16px;
 
-border-bottom:1px solid #e5e7eb;
+border:none;
 
-background:#fafafa;
+background:#2563eb;
 
-font-size:13px;
+color:white;
 
-}
+border-radius:6px;
 
-.table td{
-
-padding:10px;
-
-border-bottom:1px solid #eee;
-
-font-size:13px;
+cursor:pointer;
 
 }
 
+.progress-container{
 
-.card h2{
-margin-top:8px;
-font-size:22px;
+height:3px;
+
+background:#eee;
+
 }
 
-#app{
-padding:20px;
+#progressBar{
+
+height:3px;
+
+width:0%;
+
+background:#2563eb;
+
+transition:width .3s ease;
+
 }
