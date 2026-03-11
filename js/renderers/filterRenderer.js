@@ -2,9 +2,9 @@ export function renderFilters(DATA, onChange){
 
 const bar = document.getElementById("filterBar");
 
-const mps = [...new Set(DATA.listings.map(r=>r.mp))];
-const accs = [...new Set(DATA.listings.map(r=>r.account))];
-const cats = [...new Set(DATA.catalog.map(r=>r.category))];
+const mps = [...new Set(DATA.listings.map(r=>r.mp).filter(Boolean))];
+const accs = [...new Set(DATA.listings.map(r=>r.account).filter(Boolean))];
+const cats = [...new Set(DATA.catalog.map(r=>r.category).filter(Boolean))];
 
 bar.innerHTML = `
 
