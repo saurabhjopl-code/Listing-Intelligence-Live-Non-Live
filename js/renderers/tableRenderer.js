@@ -3,11 +3,11 @@ let expandedSKU = null
 let visibleRows = 50
 
 
-/* ================= MATRIX TABLE ================= */
-
 export function renderMatrix(container,data,mpGroups){
 
 const slice = data.slice(0,visibleRows)
+
+const mps = Object.keys(mpGroups)
 
 let html="<table><thead><tr>"
 
@@ -16,13 +16,14 @@ html+="<th>styleid</th>"
 html+="<th>category</th>"
 html+="<th>size</th>"
 
-Object.keys(mpGroups).forEach(mp=>{
+mps.forEach(mp=>{
 html+=`<th class="mpHeader" data-mp="${mp}">
 ${mp} (${mpGroups[mp].length})
 </th>`
 })
 
 html+="</tr></thead><tbody>"
+
 
 slice.forEach(r=>{
 
@@ -33,19 +34,15 @@ html+=`<td>${r.styleid}</td>`
 html+=`<td>${r.category}</td>`
 html+=`<td>${r.size}</td>`
 
-Object.keys(mpGroups).forEach(mp=>{
+mps.forEach(mp=>{
 
-const status = r[mp]
-
-let cell=""
+const status=r[mp]
 
 if(status==="LIVE"){
-cell=`<span class="dot liveDot"></span>`
+html+=`<td><span class="dot liveDot"></span></td>`
 }else{
-cell=`<span class="dot nonLiveDot"></span>`
+html+=`<td><span class="dot nonLiveDot"></span></td>`
 }
-
-html+=`<td>${cell}</td>`
 
 })
 
@@ -62,15 +59,17 @@ accounts.forEach(acc=>{
 
 html+="<tr class='accountRow'>"
 
-html+="<td></td>"
-html+=`<td colspan="3">${acc.account}</td>`
+html+=`<td></td>`
+html+=`<td>${acc.account}</td>`
+html+=`<td></td>`
+html+=`<td></td>`
 
-Object.keys(mpGroups).forEach(mp=>{
+mps.forEach(mp=>{
 
 if(mp===expandedMP){
-html+=`<td class="subIndicator">•</td>`
+html+=`<td>•</td>`
 }else{
-html+="<td></td>"
+html+=`<td></td>`
 }
 
 })
@@ -82,6 +81,7 @@ html+="</tr>"
 }
 
 })
+
 
 html+="</tbody></table>"
 
@@ -98,12 +98,6 @@ html+=`
 
 container.innerHTML=html
 
-attachMatrixEvents(container,data,mpGroups)
-
-}
-
-
-function attachMatrixEvents(container,data,mpGroups){
 
 document.querySelectorAll(".mpHeader").forEach(h=>{
 
@@ -119,6 +113,7 @@ renderMatrix(container,data,mpGroups)
 
 })
 
+
 const btn=document.getElementById("loadMoreBtn")
 
 if(btn){
@@ -133,7 +128,6 @@ renderMatrix(container,data,mpGroups)
 }
 
 
-/* ================= COUNT TABLE ================= */
 
 export function renderCount(container,data,distribution){
 
@@ -148,6 +142,7 @@ html+="<th>category</th>"
 html+="<th>LIVE mp_sku count</th>"
 
 html+="</tr></thead><tbody>"
+
 
 slice.forEach(r=>{
 
@@ -167,8 +162,6 @@ html+=`<td>${r.count}</td>`
 html+="</tr>"
 
 
-/* DISTRIBUTION EXPANSION */
-
 if(expanded){
 
 const dist=distribution[r.uniware_sku]||{}
@@ -177,8 +170,10 @@ Object.keys(dist).forEach(mp=>{
 
 html+="<tr class='distRow'>"
 
-html+="<td></td>"
-html+=`<td colspan="3">${mp}</td>`
+html+=`<td></td>`
+html+=`<td>${mp}</td>`
+html+=`<td></td>`
+html+=`<td></td>`
 html+=`<td>${dist[mp]}</td>`
 
 html+="</tr>"
@@ -188,6 +183,7 @@ html+="</tr>"
 }
 
 })
+
 
 html+="</tbody></table>"
 
@@ -204,12 +200,6 @@ html+=`
 
 container.innerHTML=html
 
-attachCountEvents(container,data,distribution)
-
-}
-
-
-function attachCountEvents(container,data,distribution){
 
 document.querySelectorAll(".expandBtn").forEach(btn=>{
 
@@ -224,6 +214,7 @@ renderCount(container,data,distribution)
 }
 
 })
+
 
 const btn=document.getElementById("loadMoreCountBtn")
 
