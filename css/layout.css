@@ -1,38 +1,66 @@
 .app-header{
 
 display:flex;
+
 justify-content:space-between;
+
 align-items:center;
 
 padding:14px 24px;
 
-background:var(--bg);
+background:white;
+
 border-bottom:1px solid var(--border);
 
 }
 
 .logo{
 
-font-weight:600;
 font-size:18px;
+
+font-weight:600;
 
 }
 
-.export{
+.search-area input{
 
-font-size:14px;
-color:var(--primary);
+padding:6px 10px;
+
+border:1px solid var(--border);
+
+border-radius:6px;
+
+width:220px;
+
+}
+
+.progress-container{
+
+height:3px;
+
+background:#e5e7eb;
+
+}
+
+#progressBar{
+
+height:3px;
+
+width:0%;
+
+background:var(--primary);
+
+transition:width .3s ease;
+
+display:none;
 
 }
 
 .filter-bar{
 
-position:sticky;
-top:0;
-
-background:#ffffff;
-
 padding:12px 24px;
+
+background:white;
 
 border-bottom:1px solid var(--border);
 
@@ -44,7 +72,7 @@ display:grid;
 
 grid-template-columns:repeat(5,1fr);
 
-gap:14px;
+gap:16px;
 
 padding:20px;
 
@@ -60,18 +88,12 @@ padding:10px 20px;
 
 border-bottom:1px solid var(--border);
 
-}
-
-.tabs button{
-
-padding:8px 14px;
-
-border:1px solid var(--border);
-
 background:white;
 
-cursor:pointer;
+}
 
-border-radius:4px;
+#app{
+
+padding:20px;
 
 }
