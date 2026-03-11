@@ -26,12 +26,14 @@ export function finishProgress(){
 
 const bar = document.getElementById("progressBar");
 
-bar.style.width = "100%";
+progress = 100;
+
+bar.style.width = progress + "%";
 
 setTimeout(()=>{
 
 bar.style.display = "none";
 
-},400);
+},500);
 
 }
