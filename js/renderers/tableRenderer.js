@@ -1,84 +1,75 @@
-let expandedMP = null;
-let visibleRows = 50;
+let expandedMP = null
+let expandedSKU = null
+let visibleRows = 50
 
-export function renderMatrix(container,data,mpGroups,listingSet){
+export function renderMatrix(container,data,mpGroups,listingSet,distribution){
 
-const slice = data.slice(0,visibleRows);
+const slice = data.slice(0,visibleRows)
 
-let html="<table><thead><tr>";
+let html="<table><thead><tr>"
 
-html+="<th>uniware_sku</th><th>styleid</th><th>category</th><th>size</th>";
+html+="<th></th>"
+html+="<th>uniware_sku</th><th>styleid</th><th>category</th><th>size</th>"
 
 Object.keys(mpGroups).forEach(mp=>{
 
 html+=`<th class="mpHeader" data-mp="${mp}">
 ${mp} (${mpGroups[mp].length})
-</th>`;
+</th>`
 
-});
+})
 
-html+="</tr></thead><tbody>";
+html+="</tr></thead><tbody>"
 
 slice.forEach(r=>{
 
-html+="<tr>";
+const isExpanded = expandedSKU===r.uniware_sku
 
-html+=`<td>${r.uniware_sku}</td>`;
-html+=`<td>${r.styleid}</td>`;
-html+=`<td>${r.category}</td>`;
-html+=`<td>${r.size}</td>`;
+html+="<tr>"
 
-Object.keys(mpGroups).forEach(mp=>{
+html+=`<td class="expandBtn" data-sku="${r.uniware_sku}">
+${isExpanded ? "▼" : "▶"}
+</td>`
 
-const cls=r[mp]==="LIVE"?"live":"nonlive";
+html+=`<td class="skuCell" data-sku="${r.uniware_sku}">
+${r.uniware_sku}
+</td>`
 
-html+=`<td class="${cls}">${r[mp]}</td>`;
-
-});
-
-html+="</tr>";
-
-if(expandedMP){
-
-const accounts=mpGroups[expandedMP];
-
-accounts.forEach(acc=>{
-
-const key=acc.channel+"|"+r.uniware_sku;
-
-const live=listingSet.has(key);
-
-const cls=live?"live":"nonlive";
-
-html+="<tr class='subRow'>";
-
-html+="<td></td><td></td><td></td><td>"+acc.account+"</td>";
+html+=`<td>${r.styleid}</td>`
+html+=`<td>${r.category}</td>`
+html+=`<td>${r.size}</td>`
 
 Object.keys(mpGroups).forEach(mp=>{
 
-if(mp===expandedMP){
+const cls=r[mp]==="LIVE"?"live":"nonlive"
 
-html+=`<td class="${cls}">
-${live?"LIVE":"NONLIVE"}
-</td>`;
+html+=`<td class="${cls}">${r[mp]}</td>`
 
-}else{
+})
 
-html+="<td></td>";
+html+="</tr>"
+
+if(isExpanded){
+
+const dist = distribution[r.uniware_sku] || {}
+
+Object.keys(dist).forEach(mp=>{
+
+html+="<tr class='skuExpand'>"
+
+html+="<td></td>"
+html+="<td colspan='4'>"+mp+"</td>"
+html+="<td colspan='20'>"+dist[mp]+"</td>"
+
+html+="</tr>"
+
+})
 
 }
 
-});
+})
 
-html+="</tr>";
-
-});
-
-}
-
-});
-
-html+="</tbody></table>";
+html+="</tbody></table>"
 
 if(data.length>visibleRows){
 
@@ -86,71 +77,58 @@ html+=`
 <div style="padding:20px;text-align:center">
 <button id="loadMore">Load More</button>
 </div>
-`;
+`
 
 }
 
-container.innerHTML=html;
+container.innerHTML=html
 
-attachEvents(container,data,mpGroups,listingSet);
+attachEvents(container,data,mpGroups,listingSet,distribution)
 
 }
 
-function attachEvents(container,data,mpGroups,listingSet){
+function attachEvents(container,data,mpGroups,listingSet,distribution){
 
 document.querySelectorAll(".mpHeader").forEach(h=>{
 
 h.onclick=()=>{
 
-const mp=h.dataset.mp;
+const mp=h.dataset.mp
 
-expandedMP = expandedMP===mp ? null : mp;
+expandedMP = expandedMP===mp ? null : mp
 
-renderMatrix(container,data,mpGroups,listingSet);
+renderMatrix(container,data,mpGroups,listingSet,distribution)
 
-};
+}
 
-});
+})
 
-const btn=document.getElementById("loadMore");
+document.querySelectorAll(".expandBtn").forEach(b=>{
+
+b.onclick=()=>{
+
+const sku=b.dataset.sku
+
+expandedSKU = expandedSKU===sku ? null : sku
+
+renderMatrix(container,data,mpGroups,listingSet,distribution)
+
+}
+
+})
+
+const btn=document.getElementById("loadMore")
 
 if(btn){
 
 btn.onclick=()=>{
 
-visibleRows+=50;
+visibleRows+=50
 
-renderMatrix(container,data,mpGroups,listingSet);
-
-};
+renderMatrix(container,data,mpGroups,listingSet,distribution)
 
 }
 
 }
-
-export function renderCount(container,data){
-
-let html="<table><thead><tr>";
-
-html+="<th>uniware_sku</th><th>styleid</th><th>category</th><th>LIVE mp_sku count</th>";
-
-html+="</tr></thead><tbody>";
-
-data.slice(0,visibleRows).forEach(r=>{
-
-html+="<tr>";
-
-html+=`<td>${r.uniware_sku}</td>`;
-html+=`<td>${r.styleid}</td>`;
-html+=`<td>${r.category}</td>`;
-html+=`<td>${r.count}</td>`;
-
-html+="</tr>";
-
-});
-
-html+="</tbody></table>";
-
-container.innerHTML=html;
 
 }
