@@ -1,20 +1,20 @@
 .card{
 
-background:var(--card-bg);
+background:white;
 
-border-radius:8px;
+border-radius:10px;
 
-padding:16px;
+padding:18px;
 
-box-shadow:0 1px 3px rgba(0,0,0,0.08);
+box-shadow:0 2px 8px rgba(0,0,0,0.06);
 
 }
 
 .card h2{
 
-margin-top:6px;
-
 font-size:22px;
+
+margin-top:6px;
 
 }
 
@@ -26,25 +26,25 @@ border-collapse:collapse;
 
 background:white;
 
-border-radius:8px;
+border-radius:10px;
 
 overflow:hidden;
 
-box-shadow:0 1px 3px rgba(0,0,0,0.08);
+box-shadow:0 2px 8px rgba(0,0,0,0.06);
 
 }
 
 .table th{
 
+text-align:left;
+
 padding:12px;
-
-background:#fafafa;
-
-border-bottom:1px solid var(--border);
 
 font-size:13px;
 
-text-align:left;
+background:#fafafa;
+
+border-bottom:1px solid #eee;
 
 }
 
@@ -52,39 +52,19 @@ text-align:left;
 
 padding:10px;
 
-border-bottom:1px solid var(--border);
-
 font-size:13px;
 
-}
-
-.tabs button{
-
-border:none;
-
-background:#eef2ff;
-
-padding:8px 14px;
-
-border-radius:6px;
-
-cursor:pointer;
-
-}
-
-.tabs button:hover{
-
-background:#dbeafe;
+border-bottom:1px solid #eee;
 
 }
 
 #loadMoreBtn{
 
-margin-top:12px;
+margin-top:16px;
 
-padding:8px 14px;
+padding:8px 16px;
 
-background:var(--primary);
+background:#2563eb;
 
 color:white;
 
