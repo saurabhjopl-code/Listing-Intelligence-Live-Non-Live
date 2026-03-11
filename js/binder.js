@@ -1,170 +1,111 @@
 import { loadSheets } from "./core/sheetLoader.js";
+import { applyFilters } from "./core/filterEngine.js";
+import { applySearch } from "./core/searchEngine.js";
 
 import { buildCatalog } from "./engines/masterCatalogEngine.js";
-
 import { buildListingMap } from "./engines/listingPresenceEngine.js";
-
 import { computeSkuStatus } from "./engines/skuStatusEngine.js";
-
 import { computeStyleCoverage } from "./engines/styleCoverageEngine.js";
-
 import { buildIndexes } from "./engines/indexEngine.js";
 
-import { getMarketplaceCoverage } from "./engines/marketplaceCoverageEngine.js";
-
 import { getMissingSizes } from "./engines/missingSizeEngine.js";
-
 import { getCriticalSkus } from "./engines/criticalSkuEngine.js";
 
 import { renderSummary } from "./renderers/summaryRenderer.js";
-
 import { renderTable } from "./renderers/tableRenderer.js";
-
+import { renderFilters } from "./renderers/filterRenderer.js";
 import { initTabs } from "./renderers/tabRenderer.js";
 
 import { startProgress, updateProgress, finishProgress } from "./engines/progressEngine.js";
 
 
 let DATA = {};
-
+let CURRENT_TAB = "summary";
 
 async function init(){
 
 startProgress();
 
-updateProgress(10);
-
 const sheets = await loadSheets();
 
-updateProgress(25);
+updateProgress(30);
 
 const catalog = buildCatalog(sheets);
-
-updateProgress(40);
-
 const listings = buildListingMap(sheets);
-
-updateProgress(55);
 
 const skuStatus = computeSkuStatus(catalog,listings);
 
-updateProgress(65);
-
-const indexes = buildIndexes(
-catalog,
-listings,
-sheets.size_count
-);
-
-updateProgress(75);
+const indexes = buildIndexes(catalog,listings,sheets.size_count);
 
 const styleCoverage = computeStyleCoverage(
 indexes.styleSkuIndex,
-skuStatus
-);
-
-updateProgress(85);
-
-const mpCoverage = getMarketplaceCoverage(
-indexes.mpSkuIndex,
+skuStatus,
 catalog
 );
 
-updateProgress(90);
-
 const missing = getMissingSizes(catalog,listings);
-
 const critical = getCriticalSkus(skuStatus);
 
 DATA = {
-
 catalog,
 listings,
 skuStatus,
 styleCoverage,
-mpCoverage,
 missing,
-critical,
-indexes
-
+critical
 };
 
 renderSummary(styleCoverage);
 
-renderTable(
-"app",
-["styleid","live","total","category","parent_remark"],
-styleCoverage
-);
+renderFilters(DATA,applyAll);
 
-initTabs(renderTab);
+initTabs(tab=>{
+CURRENT_TAB = tab;
+applyAll();
+});
 
-updateProgress(100);
+setupSearch();
+
+applyAll();
 
 finishProgress();
 
 }
 
 
-function renderTab(tab){
+function setupSearch(){
 
-if(tab==="summary"){
+const box = document.getElementById("searchBox");
+const clear = document.getElementById("clearSearch");
+
+box.oninput = applyAll;
+
+clear.onclick = ()=>{
+box.value="";
+applyAll();
+};
+
+}
+
+
+function applyAll(){
+
+const mp = document.getElementById("mpFilter")?.value;
+const cat = document.getElementById("catFilter")?.value;
+
+const term = document.getElementById("searchBox")?.value;
+
+let data = DATA.styleCoverage;
+
+data = applyFilters(data,{mp,category:cat});
+
+data = applySearch(data,term);
 
 renderTable(
 "app",
 ["styleid","live","total","category","parent_remark"],
-DATA.styleCoverage
+data
 );
-
-}
-
-
-if(tab==="partial"){
-
-renderTable(
-"app",
-["styleid","size","stock"],
-DATA.missing
-);
-
-}
-
-
-if(tab==="critical"){
-
-renderTable(
-"app",
-["uniware_sku","styleid","stock"],
-DATA.critical
-);
-
-}
-
-
-if(tab==="live"){
-
-const live = DATA.skuStatus.filter(r=>r.status==="LIVE");
-
-renderTable(
-"app",
-["uniware_sku","styleid","stock"],
-live
-);
-
-}
-
-
-if(tab==="nonlive"){
-
-const nonlive = DATA.skuStatus.filter(r=>r.status==="NON_LIVE");
-
-renderTable(
-"app",
-["uniware_sku","styleid","stock"],
-nonlive
-);
-
-}
 
 }
 
