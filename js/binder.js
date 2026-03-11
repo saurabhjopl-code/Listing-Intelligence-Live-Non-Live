@@ -16,6 +16,10 @@ import { getCriticalSkus } from "./engines/criticalSkuEngine.js";
 
 import { renderSummary } from "./renderers/summaryRenderer.js";
 
+import { renderTable } from "./renderers/tableRenderer.js";
+
+import { initTabs } from "./renderers/tabRenderer.js";
+
 
 async function init(){
 
@@ -35,11 +39,20 @@ const partialStyles = getPartialStyles(styleMpIndex);
 
 const criticalSkus = getCriticalSkus(skuStatus);
 
-console.log("Partial Styles", partialStyles);
-
-console.log("Critical SKUs", criticalSkus);
-
 renderSummary(styleCoverage);
+
+initTabs();
+
+
+renderTable(
+
+"app",
+
+["styleid","live","total"],
+
+styleCoverage
+
+);
 
 }
 
