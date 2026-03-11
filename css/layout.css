@@ -1,20 +1,15 @@
 body{
 background:#f4f6fb;
-font-family:Inter, Arial, Helvetica, sans-serif;
+font-family:Inter,Arial,Helvetica,sans-serif;
 }
 
 .app-header{
-
 display:flex;
 justify-content:space-between;
 align-items:center;
-
-padding:16px 24px;
-
+padding:14px 24px;
 background:white;
-
 border-bottom:1px solid #e5e7eb;
-
 }
 
 .logo{
@@ -22,96 +17,69 @@ font-size:18px;
 font-weight:600;
 }
 
+.search-area{
+display:flex;
+align-items:center;
+gap:6px;
+}
+
 .search-area input{
-
-width:240px;
-
-padding:8px 12px;
-
+width:220px;
+padding:8px 10px;
 border:1px solid #e5e7eb;
-
 border-radius:6px;
-
 }
 
-.progress-container{
-
-height:3px;
+.clear-btn{
+cursor:pointer;
 background:#e5e7eb;
-
-}
-
-#progressBar{
-
-height:3px;
-width:0%;
-
-background:#2563eb;
-
-transition:width .3s ease;
-
-display:none;
-
+border:none;
+border-radius:4px;
+padding:4px 6px;
 }
 
 .filter-bar{
-
-background:white;
-
+display:flex;
+gap:12px;
 padding:12px 24px;
-
+background:white;
 border-bottom:1px solid #e5e7eb;
+}
 
+.filter-bar select{
+padding:6px 10px;
+border-radius:6px;
+border:1px solid #e5e7eb;
 }
 
 .summary-grid{
-
 display:grid;
-
 grid-template-columns:repeat(5,1fr);
-
 gap:16px;
-
 padding:24px;
-
 }
 
 .tabs{
-
 display:flex;
-
 gap:10px;
-
-padding:12px 24px;
-
+padding:10px 24px;
 background:white;
-
 border-bottom:1px solid #e5e7eb;
-
 }
 
 .tabs button{
-
 background:#eef2ff;
-
 border:none;
-
 padding:8px 16px;
-
 border-radius:6px;
-
 cursor:pointer;
-
 }
 
-.tabs button:hover{
-
-background:#dbeafe;
-
+.tabs button.active{
+background:#2563eb;
+color:white;
 }
 
 #app{
-
 padding:24px;
-
 }
