@@ -1,30 +1,29 @@
 export function buildListingMap(sheets){
 
 const data = sheets.data;
-const channel = sheets.channel_name;
+const channels = sheets.channel_name;
 
-const channelMap = {};
+const map = {};
 
-channel.forEach(row=>{
-
-channelMap[row.channel_name] = {
-mp: row.mp,
-account: row.account
+channels.forEach(r=>{
+map[r.channel_name] = {
+mp: r.mp,
+account: r.account
 };
-
 });
 
-return data.map(row=>{
+return data.map(r=>{
 
-const mapping = channelMap[row.channel_name] || {};
+const ch = map[r.channel_name] || {};
 
-return{
+return {
 
-uniware_sku:row.uniware_sku,
-mp:mapping.mp || "",
-account:mapping.account || "",
-mp_sku:row.mp_sku,
-pid:row.pid
+channel_name:r.channel_name,
+uniware_sku:r.uniware_sku,
+mp: ch.mp || "",
+account: ch.account || "",
+mp_sku:r.mp_sku,
+pid:r.pid
 
 };
 
