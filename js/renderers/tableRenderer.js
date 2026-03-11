@@ -31,10 +31,7 @@ html+=`<td class="expandBtn" data-sku="${r.uniware_sku}">
 ${isExpanded ? "▼" : "▶"}
 </td>`
 
-html+=`<td class="skuCell" data-sku="${r.uniware_sku}">
-${r.uniware_sku}
-</td>`
-
+html+=`<td class="skuCell">${r.uniware_sku}</td>`
 html+=`<td>${r.styleid}</td>`
 html+=`<td>${r.category}</td>`
 html+=`<td>${r.size}</td>`
@@ -58,8 +55,14 @@ Object.keys(dist).forEach(mp=>{
 html+="<tr class='skuExpand'>"
 
 html+="<td></td>"
-html+="<td colspan='4'>"+mp+"</td>"
-html+="<td colspan='20'>"+dist[mp]+"</td>"
+html+="<td colspan='3'>"+mp+"</td>"
+html+="<td>"+dist[mp]+"</td>"
+
+Object.keys(mpGroups).forEach(()=>{
+
+html+="<td></td>"
+
+})
 
 html+="</tr>"
 
@@ -130,5 +133,36 @@ renderMatrix(container,data,mpGroups,listingSet,distribution)
 }
 
 }
+
+}
+
+
+export function renderCount(container,data){
+
+let html="<table><thead><tr>"
+
+html+="<th>uniware_sku</th>"
+html+="<th>styleid</th>"
+html+="<th>category</th>"
+html+="<th>LIVE mp_sku count</th>"
+
+html+="</tr></thead><tbody>"
+
+data.slice(0,visibleRows).forEach(r=>{
+
+html+="<tr>"
+
+html+=`<td>${r.uniware_sku}</td>`
+html+=`<td>${r.styleid}</td>`
+html+=`<td>${r.category}</td>`
+html+=`<td>${r.count}</td>`
+
+html+="</tr>"
+
+})
+
+html+="</tbody></table>"
+
+container.innerHTML=html
 
 }
