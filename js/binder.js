@@ -8,11 +8,13 @@ import { computeSkuStatus } from "./engines/skuStatusEngine.js";
 
 import { computeStyleCoverage } from "./engines/styleCoverageEngine.js";
 
-import { buildStyleMpIndex } from "./engines/styleMpIndexEngine.js";
+import { getMarketplaceCoverage } from "./engines/marketplaceCoverageEngine.js";
 
-import { getPartialStyles } from "./engines/missingSizeEngine.js";
+import { getMissingSizes } from "./engines/missingSizeEngine.js";
 
 import { getCriticalSkus } from "./engines/criticalSkuEngine.js";
+
+import { exportCSV } from "./engines/exportEngine.js";
 
 import { renderSummary } from "./renderers/summaryRenderer.js";
 
@@ -20,6 +22,8 @@ import { renderTable } from "./renderers/tableRenderer.js";
 
 import { initTabs } from "./renderers/tabRenderer.js";
 
+
+let DATA = {};
 
 async function init(){
 
@@ -33,16 +37,31 @@ const skuStatus = computeSkuStatus(catalog,listings);
 
 const styleCoverage = computeStyleCoverage(skuStatus);
 
-const styleMpIndex = buildStyleMpIndex(catalog,listings);
+const mpCoverage = getMarketplaceCoverage(listings,catalog);
 
-const partialStyles = getPartialStyles(styleMpIndex);
+const missing = getMissingSizes(catalog,listings);
 
-const criticalSkus = getCriticalSkus(skuStatus);
+const critical = getCriticalSkus(skuStatus);
+
+DATA = {
+
+catalog,
+
+listings,
+
+skuStatus,
+
+styleCoverage,
+
+mpCoverage,
+
+missing,
+
+critical
+
+};
 
 renderSummary(styleCoverage);
-
-initTabs();
-
 
 renderTable(
 
@@ -54,6 +73,88 @@ styleCoverage
 
 );
 
+initTabs(renderTab);
+
 }
+
+
+function renderTab(tab){
+
+if(tab==="summary"){
+
+renderTable(
+
+"app",
+
+["styleid","live","total"],
+
+DATA.styleCoverage
+
+);
+
+}
+
+if(tab==="partial"){
+
+renderTable(
+
+"app",
+
+["styleid","size","stock"],
+
+DATA.missing
+
+);
+
+}
+
+if(tab==="critical"){
+
+renderTable(
+
+"app",
+
+["uniware_sku","styleid","stock"],
+
+DATA.critical
+
+);
+
+}
+
+if(tab==="live"){
+
+const live = DATA.skuStatus.filter(r=>r.status==="LIVE");
+
+renderTable(
+
+"app",
+
+["uniware_sku","styleid","stock"],
+
+live
+
+);
+
+}
+
+if(tab==="nonlive"){
+
+const nonlive = DATA.skuStatus.filter(r=>r.status==="NON_LIVE");
+
+renderTable(
+
+"app",
+
+["uniware_sku","styleid","stock"],
+
+nonlive
+
+);
+
+}
+
+}
+
 
 init();
