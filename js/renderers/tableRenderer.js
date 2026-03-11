@@ -34,16 +34,26 @@ html += "</tr>";
 
 html += "</tbody></table>";
 
+if(data.length > PAGE){
+
 html += `<button id="loadMoreBtn">Load More</button>`;
+
+}
 
 container.innerHTML = html;
 
-document.getElementById("loadMoreBtn").onclick = () => {
+const btn = document.getElementById("loadMoreBtn");
+
+if(btn){
+
+btn.onclick = ()=>{
 
 PAGE += 50;
 
 renderTable(containerId,columns,data);
 
 };
+
+}
 
 }
