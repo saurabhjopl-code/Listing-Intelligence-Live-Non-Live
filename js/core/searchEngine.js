@@ -18,7 +18,7 @@ row.uniware_sku?.toLowerCase().includes(term)
 
 let timer = null;
 
-export function debounceSearch(callback){
+export function applySearchDebounced(callback){
 
 clearTimeout(timer);
 
