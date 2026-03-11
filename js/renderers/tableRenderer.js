@@ -1,59 +1,68 @@
-let PAGE = 50;
+export function renderMatrix(container,data,mpGroups){
 
-export function renderTable(containerId, columns, data){
+let html="<table><thead><tr>";
 
-const container = document.getElementById(containerId);
+html+="<th>uniware_sku</th><th>styleid</th><th>category</th><th>size</th>";
 
-let visible = data.slice(0,PAGE);
+Object.keys(mpGroups).forEach(mp=>{
 
-let html = "<table class='table'>";
-
-html += "<thead><tr>";
-
-columns.forEach(col=>{
-
-html += `<th>${col}</th>`;
+html+=`<th>${mp} (${mpGroups[mp].length})</th>`;
 
 });
 
-html += "</tr></thead><tbody>";
+html+="</tr></thead><tbody>";
 
-visible.forEach(row=>{
+data.forEach(r=>{
 
-html += "<tr>";
+html+="<tr>";
 
-columns.forEach(col=>{
+html+=`<td>${r.uniware_sku}</td>`;
+html+=`<td>${r.styleid}</td>`;
+html+=`<td>${r.category}</td>`;
+html+=`<td>${r.size}</td>`;
 
-html += `<td>${row[col] || ""}</td>`;
+Object.keys(mpGroups).forEach(mp=>{
+
+const cls=r[mp]==="LIVE"?"live":"nonlive";
+
+html+=`<td class="${cls}">${r[mp]}</td>`;
 
 });
 
-html += "</tr>";
+html+="</tr>";
 
 });
 
-html += "</tbody></table>";
+html+="</tbody></table>";
 
-if(data.length > PAGE){
-
-html += `<button id="loadMoreBtn">Load More</button>`;
+container.innerHTML=html;
 
 }
 
-container.innerHTML = html;
 
-const btn = document.getElementById("loadMoreBtn");
+export function renderCount(container,data){
 
-if(btn){
+let html="<table><thead><tr>";
 
-btn.onclick = ()=>{
+html+="<th>uniware_sku</th><th>styleid</th><th>category</th><th>LIVE mp_sku count</th>";
 
-PAGE += 50;
+html+="</tr></thead><tbody>";
 
-renderTable(containerId,columns,data);
+data.forEach(r=>{
 
-};
+html+="<tr>";
 
-}
+html+=`<td>${r.uniware_sku}</td>`;
+html+=`<td>${r.styleid}</td>`;
+html+=`<td>${r.category}</td>`;
+html+=`<td>${r.count}</td>`;
+
+html+="</tr>";
+
+});
+
+html+="</tbody></table>";
+
+container.innerHTML=html;
 
 }
