@@ -30,40 +30,51 @@ let DATA = {};
 
 async function init(){
 
+startProgress();
+
+updateProgress(10);
+
 const sheets = await loadSheets();
+
+updateProgress(25);
 
 const catalog = buildCatalog(sheets);
 
+updateProgress(40);
+
 const listings = buildListingMap(sheets);
+
+updateProgress(55);
 
 const skuStatus = computeSkuStatus(catalog,listings);
 
-const indexes = buildIndexes(
+updateProgress(65);
 
+const indexes = buildIndexes(
 catalog,
 listings,
 sheets.size_count
-
 );
+
+updateProgress(75);
 
 const styleCoverage = computeStyleCoverage(
-
 indexes.styleSkuIndex,
 skuStatus
-
 );
+
+updateProgress(85);
 
 const mpCoverage = getMarketplaceCoverage(
-
 indexes.mpSkuIndex,
 catalog
-
 );
+
+updateProgress(90);
 
 const missing = getMissingSizes(catalog,listings);
 
 const critical = getCriticalSkus(skuStatus);
-
 
 DATA = {
 
@@ -78,22 +89,19 @@ indexes
 
 };
 
-
 renderSummary(styleCoverage);
 
-
 renderTable(
-
 "app",
-
-["styleid","live","total"],
-
+["styleid","live","total","category","parent_remark"],
 styleCoverage
-
 );
 
-
 initTabs(renderTab);
+
+updateProgress(100);
+
+finishProgress();
 
 }
 
@@ -103,73 +111,57 @@ function renderTab(tab){
 if(tab==="summary"){
 
 renderTable(
-
 "app",
-
-["styleid","live","total"],
-
+["styleid","live","total","category","parent_remark"],
 DATA.styleCoverage
-
 );
 
 }
+
 
 if(tab==="partial"){
 
 renderTable(
-
 "app",
-
 ["styleid","size","stock"],
-
 DATA.missing
-
 );
 
 }
+
 
 if(tab==="critical"){
 
 renderTable(
-
 "app",
-
 ["uniware_sku","styleid","stock"],
-
 DATA.critical
-
 );
 
 }
+
 
 if(tab==="live"){
 
 const live = DATA.skuStatus.filter(r=>r.status==="LIVE");
 
 renderTable(
-
 "app",
-
 ["uniware_sku","styleid","stock"],
-
 live
-
 );
 
 }
+
 
 if(tab==="nonlive"){
 
 const nonlive = DATA.skuStatus.filter(r=>r.status==="NON_LIVE");
 
 renderTable(
-
 "app",
-
 ["uniware_sku","styleid","stock"],
-
 nonlive
-
 );
 
 }
@@ -178,20 +170,3 @@ nonlive
 
 
 init();
-
-startProgress()
-
-updateProgress(20)
-loadSheets()
-
-updateProgress(40)
-buildCatalog()
-
-updateProgress(60)
-buildIndexes()
-
-updateProgress(80)
-computeStyleCoverage()
-
-updateProgress(100)
-finishProgress()
