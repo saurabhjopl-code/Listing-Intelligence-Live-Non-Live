@@ -1,1 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<title>Listing Intelligence Tool</title>
+
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+
+</head>
+
+<body>
+
+<header class="app-header">
+
+<div class="logo">
+Listing Intelligence
+</div>
+
+<div class="export">
+Export
+</div>
+
+</header>
+
+<div class="filter-bar" id="filterBar"></div>
+
+<div class="summary-grid" id="summaryGrid"></div>
+
+<div class="tabs">
+
+<button data-tab="summary">Summary</button>
+<button data-tab="live">Live</button>
+<button data-tab="partial">Partial Live</button>
+<button data-tab="nonlive">Non Live</button>
+<button data-tab="critical">Critical</button>
+
+</div>
+
+<div id="app"></div>
+
+<script type="module" src="js/binder.js"></script>
+
+</body>
+</html>
