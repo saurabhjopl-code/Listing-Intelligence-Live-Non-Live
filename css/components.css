@@ -1,14 +1,20 @@
 .card{
 
-background:white;
+background:var(--card-bg);
+
+border-radius:8px;
 
 padding:16px;
 
-border:1px solid #e5e7eb;
+box-shadow:0 1px 3px rgba(0,0,0,0.08);
 
-border-radius:6px;
+}
 
-font-size:14px;
+.card h2{
+
+margin-top:6px;
+
+font-size:22px;
 
 }
 
@@ -17,46 +23,6 @@ font-size:14px;
 width:100%;
 
 border-collapse:collapse;
-
-margin-top:20px;
-
-}
-
-.table th{
-
-text-align:left;
-
-padding:10px;
-
-border-bottom:1px solid #e5e7eb;
-
-background:#fafafa;
-
-font-size:13px;
-
-}
-
-.table td{
-
-padding:10px;
-
-border-bottom:1px solid #eee;
-
-font-size:13px;
-
-}
-
-
-.card h2{
-margin-top:8px;
-font-size:22px;
-}
-
-#app{
-padding:20px;
-}
-
-.table{
 
 background:white;
 
@@ -68,37 +34,37 @@ box-shadow:0 1px 3px rgba(0,0,0,0.08);
 
 }
 
-.tabs button{
+.table th{
 
-background:#f8fafc;
+padding:12px;
 
-border:none;
+background:#fafafa;
 
-padding:10px 16px;
+border-bottom:1px solid var(--border);
 
-border-radius:6px;
+font-size:13px;
 
-font-weight:500;
+text-align:left;
 
 }
 
-.tabs button:hover{
+.table td{
+
+padding:10px;
+
+border-bottom:1px solid var(--border);
+
+font-size:13px;
+
+}
+
+.tabs button{
+
+border:none;
 
 background:#eef2ff;
 
-}
-
-#loadMoreBtn{
-
-margin-top:15px;
-
-padding:10px 16px;
-
-border:none;
-
-background:#2563eb;
-
-color:white;
+padding:8px 14px;
 
 border-radius:6px;
 
@@ -106,22 +72,26 @@ cursor:pointer;
 
 }
 
-.progress-container{
+.tabs button:hover{
 
-height:3px;
-
-background:#eee;
+background:#dbeafe;
 
 }
 
-#progressBar{
+#loadMoreBtn{
 
-height:3px;
+margin-top:12px;
 
-width:0%;
+padding:8px 14px;
 
-background:#2563eb;
+background:var(--primary);
 
-transition:width .3s ease;
+color:white;
+
+border:none;
+
+border-radius:6px;
+
+cursor:pointer;
 
 }
